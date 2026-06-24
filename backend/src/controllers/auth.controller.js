@@ -1,4 +1,10 @@
 async function signup(req, res){
+    const {email, fullname, password} = req.body
+    try{
+
+    } catch (){
+        
+    }
     res.send("This is the signup page")
 }
 
