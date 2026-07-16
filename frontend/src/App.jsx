@@ -17,6 +17,7 @@ const App = () => {
     <Outlet />
     <div className='text-center' >Footer</div>
     
+     <ToastContainer position="top-center" autoClose={3000} />
     </>
   )
 }
