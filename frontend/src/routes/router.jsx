@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Signup from "../pages/Signup";
 import Profile from "../pages/Profile";
 import PageNotFound from "../pages/PageNotFound";
+import PublicRoute from "./PublicRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -22,20 +23,24 @@ export const router = createBrowserRouter([
           { path: "profile", element: <Profile /> },
         ],
       },
+      {
+        element: <PublicRoute />,
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+
+          {
+            path: "signup",
+            element: <Signup />,
+          },
+        ],
+      },
     ],
   },
 
   {
-    path: "login",
-    element: <Login />,
-  },
-
-  {
-    path: "signup",
-    element: <Signup />,
-  },
-
-   {
     path: "*",
     element: <PageNotFound />,
   },

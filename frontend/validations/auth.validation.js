@@ -1,7 +1,7 @@
 import  { z }  from "zod";
 
 const signupSchema = z.object({
-  fullname: z
+  fullName: z
     .string()
     .trim()
     .nonempty("Full name is required")
@@ -39,8 +39,7 @@ const loginSchema = z.object({
 
   password: z
     .string()
-      .nonempty("Full name is required")
-    .max(50, { message: "Password can't exceed 50 characters" }),
+      .nonempty("Password is required")
 });
 
 export { signupSchema, loginSchema };

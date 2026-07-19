@@ -4,9 +4,13 @@ import './index.css'
 import App from './App.jsx'
 import {router} from "./routes/router.jsx"
 import {RouterProvider} from "react-router-dom"
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router = {router} />
+     <ToastContainer position="top-center" autoClose={3000} toastStyle={{marginTop: "-15px"}} />
   </StrictMode>
 )

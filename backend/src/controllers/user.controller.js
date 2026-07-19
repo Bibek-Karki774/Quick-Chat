@@ -33,10 +33,16 @@ async function updateProfile(req, res) {
   }
 }
 
-async function getUsersForSidebar(){
-  
+async function getUsersForSidebar(req, res){
+  try{
+  // Fetch all users except the user
+  const users = await User.find({_id:{$ne:req.user.id}}).select("-password")
+  res.status(200).json({users, success:True})
+  } catch(error){
+    console.log("Internal Server Error ", error.message)
+    res.status(500).json({message: "Internal Server Error"})
+  }
 }
-
 
 module.exports = {
     updateProfile,

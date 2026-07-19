@@ -2,8 +2,10 @@ const express = require("express")
 const dotenv = require("dotenv").config()
 const authRoutes = require("./routes/auth.routes")
 const userRoutes = require("./routes/user.routes.js")
+const msgRoutes = require("./routes/msg.routes.js")
 const connectDB = require("./config/db.js");
 const cookieParser = require("cookie-parser");
+const cors = require("cors")
 const dns = require("dns")
 
 // Change the DNS
@@ -17,6 +19,12 @@ connectDB();
 
 app.use(express.json())
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+)
 
 // Defining routes  
 app.get("/", (req,res)=>{
@@ -26,6 +34,14 @@ app.get("/", (req,res)=>{
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/message", msgRoutes)
+
+// 404 handler, if no any valid route matches
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
 
 app.listen("5000", ()=>{
     console.log(`Server listening at ${PORT}`)

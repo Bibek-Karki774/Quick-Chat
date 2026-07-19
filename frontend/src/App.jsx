@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom'
 import useAuthStore from "./store/auth.store.js"
 import { useEffect } from 'react'
 
+
+
 const App = () => {
   const checkAuth = useAuthStore((state)=> state.checkAuth);
   
@@ -13,11 +15,7 @@ const App = () => {
 
   return (
     <>
-    <div className='text-center'>NavBar</div>
     <Outlet />
-    <div className='text-center' >Footer</div>
-    
-     <ToastContainer position="top-center" autoClose={3000} />
     </>
   )
 }

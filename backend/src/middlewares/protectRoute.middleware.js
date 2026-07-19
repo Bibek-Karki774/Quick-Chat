@@ -9,7 +9,7 @@ async function protectRoute(req, res, next){
     }
 
     const decoded = verifyToken(token);
-    if(!isValidToken){
+    if(!decoded){
         console.log("Unauthorized access - token is not valid");
         return res.status(401).json({message: "Unauthorized access - token is not valid"})
     }

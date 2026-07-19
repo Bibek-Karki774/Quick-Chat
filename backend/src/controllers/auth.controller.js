@@ -11,28 +11,33 @@ async function signup(req, res) {
   const result = signupSchema.safeParse(req.body);
 
   if (result.success) {
-    const { email, fullname, password } = result.data;
+    const { email, fullName, password } = result.data;
+    console.log(email, fullName);
 
     try {
       const existingUser = await User.findOne({ email });
+      console.log("Searching email:", email);
+console.log("Found user:", existingUser);
       if (existingUser) {
         return res.status(409).json({
-          message: "User already exists.",
+          success: false,
+          field: "email",
+          message: "An account with this email already exists.",
         });
       }
 
       const hashedPassword = await hashPassword(password);
       const newUser = await User.create({
         email,
-        fullname,
+        fullName,
         password: hashedPassword,
       });
 
       return res.status(201).json({
-        message: "User created successfully.",
+        message: "Account created successfully!",
         user: {
           id: newUser._id,
-          fullname: newUser.fullname,
+          fullName: newUser.fullName,
           email: newUser.email,
         },
       });
@@ -66,7 +71,7 @@ async function login(req, res) {
       if (!isMatch) {
         return res.status(401).json({
           success: false,
-          message: "Invalid credentials",
+          message: "Invalid email or password",
         });
       }
 
@@ -108,8 +113,13 @@ async function logout(req, res) {
    }
 }
 
+const checkAuth = (req, res)=>{
+    res.status(200).json(req.user);
+}
+
 module.exports = {
   signup,
   login,
   logout,
+  checkAuth
 };

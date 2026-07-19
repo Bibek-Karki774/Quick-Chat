@@ -1,16 +1,17 @@
 import useAuthStore from "../store/auth.store";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
-function ProtectedRoute({children}){
+function ProtectedRoute(){
     const {user, isCheckingAuth} = useAuthStore();
     if(isCheckingAuth){
-        return <div>Loading...</div>
+        return <Loader2 className="h-6 w-6 animate-spin" />
     }
     if(!user){
         return <Navigate to="/login" replace />
     }
 
-    return children;
+    return <Outlet />;
 }
 
 export default ProtectedRoute

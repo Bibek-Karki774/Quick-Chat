@@ -1,15 +1,17 @@
 import React from "react";
 import Logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
-import FloatingInput from "../components/FloatingInput.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import FloatingInput from "../components/Input.jsx";
 import { useState } from "react";
 import axiosObj from "../lib/axios.js";
 import useAuthStore from "../store/auth.store.js";
 import { Loader2 } from "lucide-react";
 import { signupSchema } from "../../validations/auth.validation.js";
+import { toast } from "react-toastify";
+
 
 const Signup = () => {
-  
+  const navigate = useNavigate();
   const { signup, isSigningup, errors, setErrors } = useAuthStore(); // error is for server error from store and erros is for validation
 
   const [formData, setFormData] = useState({
@@ -52,7 +54,10 @@ const Signup = () => {
     e.preventDefault();
 
      if (!validate()) return;
-    await signup(formData);
+    const success = await signup(formData);
+    if(success){
+      navigate("/login")
+    }
   };
   return (
     <>
@@ -65,9 +70,9 @@ const Signup = () => {
         <div className="w-13">
           <img src={Logo} className=""></img>
         </div>
-        <h3 className="text-xl font-bold mt-3">Signup to get started</h3>
-        <div className="relative flex flex-col gap-3  w-1/2 mt-3 *:mb-4">
-          <div>
+        <h3 className="text-xl font-bold mt-3 mb-3x ">Signup to get started</h3>
+        <div className="relative flex flex-col gap-1  w-1/2 mt-3 *:mb-4">
+          
             <FloatingInput
               type="text"
               name="fullName"
@@ -75,11 +80,11 @@ const Signup = () => {
               label="Full Name"
               onChange={onChange}
               value={formData.fullName}
-              error ={errors.fullname}
+              error ={errors.fullName}
             />
-          </div>
+          
 
-          <div>
+        
             <FloatingInput
               type="email"
               name="email"
@@ -89,9 +94,9 @@ const Signup = () => {
               value={formData.email}
               error={errors.email}
             />
-          </div>
+        
 
-          <div>
+        
             <FloatingInput
               type="password"
               name="password"
@@ -101,17 +106,17 @@ const Signup = () => {
               value={formData.password}
               error={errors.password}
             />
-          </div>
+         
         </div>
 
         <button
           type="submit"
           disabled={isSigningup}
           className="w-1/2 mt-8 bg-[#0064E0] hover:bg-[#0757D9] hover:cursor-pointer
-         text-white py-2 rounded-[5px]"
+         text-white py-2 rounded-[5px] flex items-center justify-center"
         >
           {isSigningup ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-6 w-6 animate-spin" />
           ) : (
             "Signup"
           )}
